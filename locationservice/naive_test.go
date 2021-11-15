@@ -46,6 +46,10 @@ func TestFindClosest(t *testing.T) {
 
 	maxDistanceMeters := 10000
 	result := service.FindClosest(GeoPoint{47.618698, -122.320229}, maxDistanceMeters)
+	if len(result) != 7 {
+		t.Errorf("want result size 9, got %d", len(result))
+	}
+
 	for _, location := range result {
 		if !strings.Contains(location.ID, "Seattle") {
 			t.Errorf("unexpected result: %+v", location)
@@ -62,17 +66,18 @@ func TestFindClosest(t *testing.T) {
 //
 // On an Apple M1 computer, we expect results similar to:
 //
-//  BenchmarkFindClosest-8  4653    219324  ns/op   360 B/op    4 allocs/op
+//  BenchmarkFindClosest-8  4653  219324 ns/op  360 B/op  4 allocs/op
 //
 // In other words, the average FindClosest() operation took around 0.219
 // milliseconds.
 //
 // Note that the implementation represents points as a 3D vector. As a result,
-// the distance calculation operations are significantly faster compared to a
-// representation that retains the original latitude and longitude. We expect an
-// implementation that does not use 3D vectors to be about three times slower:
+// the distance calculations are significantly faster compared to a
+// representation that retains the original latitudes and longitudes. We expect
+// an implementation that does not use 3D vectors to be about three times
+// slower:
 //
-//   BenchmarkFindClosest-8	1800	644824 ns/op	360 B/op	4 allocs/op
+//   BenchmarkFindClosest-8  1800  644824 ns/op  360 B/op  4 allocs/op
 //
 func BenchmarkFindClosest(b *testing.B) {
 	service, err := newService()
