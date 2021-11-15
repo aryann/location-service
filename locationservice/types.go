@@ -20,7 +20,7 @@ type GeoPoint struct {
 // searching for them based off of a GeoPoint and a maximum distance.
 type LocationService interface {
 	Add(id string, point GeoPoint)
-	FindClosest(point GeoPoint, maxDistanceMeters float64) []SearchResult
+	FindClosest(point GeoPoint, maxDistanceMeters int) []SearchResult
 }
 
 func toS2Point(point GeoPoint) s2.Point {
