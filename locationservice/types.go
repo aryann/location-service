@@ -11,13 +11,16 @@ type SearchResult struct {
 	DistanceMeters int
 }
 
+// GeoPoint is a type for representing a latitude and longitude in decimal form.
 type GeoPoint struct {
 	Latitude, Longitude float64
 }
 
+// LocationService is a type for storing a set of locations on Earth and
+// searching for them based off of a GeoPoint and a maximum distance.
 type LocationService interface {
 	Add(id string, point GeoPoint)
-	FindClosest(point GeoPoint, maxDistance float64) []SearchResult
+	FindClosest(point GeoPoint, maxDistanceMeters float64) []SearchResult
 }
 
 func toS2Point(point GeoPoint) s2.Point {
